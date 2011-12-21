@@ -75,4 +75,21 @@ public class XdtTransformerTest {
     }
 
 
+    @Test
+    public void TestInsertTransform() throws DocumentException, IOException, SAXException, XpathException {
+        @Language("XML")
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add key=\"key4\" value=\"value4\" xdt:Transform=\"Insert\"/>\n    </appSettings>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("4", "count(/configuration/appSettings/add)", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("value4", "/configuration/appSettings/add[@key=\"key1\"]/@value", result.asXML());
+
+
+    }
+
+
 }

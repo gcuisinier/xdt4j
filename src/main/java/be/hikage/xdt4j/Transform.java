@@ -2,6 +2,8 @@ package be.hikage.xdt4j;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,6 +13,8 @@ import org.dom4j.Element;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Transform {
+
+    public static Logger LOG = LoggerFactory.getLogger(Transform.class);
 
 
     protected Element transformElement;
@@ -24,5 +28,18 @@ public abstract class Transform {
     }
 
 
-    public abstract void apply();
+    public void apply() {
+
+        if (LOG.isDebugEnabled())
+            LOG.debug("Before applying {}: {}", getClass().getName(), workingDocument.asXML());
+
+        applyInternal();
+
+        if (LOG.isDebugEnabled())
+            LOG.debug("After applying {}: {}", getClass().getName(), workingDocument.asXML());
+
+
+    }
+
+    protected abstract void applyInternal();
 }

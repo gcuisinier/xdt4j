@@ -25,9 +25,7 @@ public class RemoveTransform extends Transform {
     }
 
     @Override
-    public void apply() {
-        if (LOG.isDebugEnabled())
-            LOG.debug("Before applying : {}", workingDocument.asXML());
+    public void applyInternal() {
 
         List<Element> targetElements = workingDocument.selectNodes(transformElement.getPath());
 
@@ -39,8 +37,7 @@ public class RemoveTransform extends Transform {
             toRemove.getParent().remove(toRemove);
 
         }
-        if (LOG.isDebugEnabled())
-            LOG.debug("After removing {}", workingDocument.asXML());
+
 
     }
 }

@@ -48,7 +48,7 @@ public class XdtTransformFactory {
 
 
         } catch (Exception e) {
-            throw new RuntimeException("TODO : Exception handling");
+            throw new RuntimeException("TODO : Exception handling", e);
         }
 
 

@@ -15,8 +15,8 @@ import java.io.InputStream;
  * To change this template use File | Settings | File Templates.
  */
 public class TestUtils {
-    
-    
+
+
     public static Document loadXml(String filename) throws DocumentException {
 
         InputStream stream = TestUtils.class.getClassLoader().getResourceAsStream(filename);

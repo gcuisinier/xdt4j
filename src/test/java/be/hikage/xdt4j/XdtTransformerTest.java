@@ -86,7 +86,7 @@ public class XdtTransformerTest {
         Document result = transformer.transform(baseDocument, transformDocument);
 
         XMLAssert.assertXpathEvaluatesTo("4", "count(/configuration/appSettings/add)", result.asXML());
-        XMLAssert.assertXpathEvaluatesTo("value4", "/configuration/appSettings/add[@key=\"key1\"]/@value", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("value4", "/configuration/appSettings/add[@key=\"key4\"]/@value", result.asXML());
 
 
     }

@@ -2,7 +2,7 @@
 
 <configuration>
     <connectionStrings>
-        <add name="myconnection" connectionString="value-dev" />
+        <add name="myconnection" connectionString="value-dev"/>
     </connectionStrings>
     <appSettings>
         <add key="key1" value="value1"/>
@@ -12,7 +12,7 @@
     <system.net>
         <mailSettings>
             <smtp>
-                <network host="127.0.0.1" />
+                <network host="127.0.0.1"/>
             </smtp>
         </mailSettings>
     </system.net>

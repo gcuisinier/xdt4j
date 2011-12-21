@@ -45,5 +45,20 @@ public class XdtTransformerTest {
 
     }
 
+    @Test
+    public void TestRemoveTransform() throws DocumentException, IOException, SAXException, XpathException {
+        @Language("XML")
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <system.web xdt:Transform=\"Remove\"/>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("3", "count(/configuration/*)", result.asXML());
+
+
+    }
+
 
 }

@@ -32,7 +32,7 @@ public class XdtTransformerTest {
     }
 
     @Test
-    public void TestIdentityTransform() throws DocumentException, IOException, SAXException, XpathException {
+    public void TestIdentityTransform() throws Exception {
         @Language("XML")
         String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\" />";
         Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
@@ -61,7 +61,7 @@ public class XdtTransformerTest {
     }
 
     @Test
-    public void TestSetAttributesTransform() throws DocumentException, IOException, SAXException, XpathException {
+    public void TestSetAttributesTransform() throws Exception {
         @Language("XML")
         String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <system.web>\n        <compilation debug=\"false\" xdt:Transform=\"SetAttributes\"/>\n    </system.web>\n</configuration>";
         Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
@@ -76,7 +76,7 @@ public class XdtTransformerTest {
 
 
     @Test
-    public void TestInsertTransform() throws DocumentException, IOException, SAXException, XpathException {
+    public void TestInsertTransform() throws Exception {
         @Language("XML")
         String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add key=\"key4\" value=\"value4\" xdt:Transform=\"Insert\"/>\n    </appSettings>\n</configuration>";
         Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
@@ -91,5 +91,53 @@ public class XdtTransformerTest {
 
     }
 
+    @Test
+    public void TestInsertBeforeTransform() throws Exception {
+        @Language("XML")
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add key=\"key2.5\" value=\"value2.5\" xdt:Transform=\"InsertBefore(/configuration/appSettings/add[@key='key3'])\"/>\n    </appSettings>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
 
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("4", "count(/configuration/appSettings/add)", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("value2.5", "/configuration/appSettings/add[@key=\"key2.5\"]/@value", result.asXML());
+
+
+    }
+
+    @Test
+    public void TestInsertAfterTransform() throws Exception {
+
+        @Language("XML")
+        final String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add key=\"key3.5\" value=\"value3.5\" xdt:Transform=\"InsertAfter(/configuration/appSettings/add[@key='key3'])\"/>\n    </appSettings>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("4", "count(/configuration/appSettings/add)", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("value3.5", "/configuration/appSettings/add[@key=\"key3.5\"]/@value", result.asXML());
+
+    }
+
+    @Test
+    public void TestReplaceTransform() throws Exception {
+
+        @Language("XML")
+        final String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <system.web xdt:Transform=\"Replace\">\n        <extra content=\"here\"/>\n    </system.web>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("4", "count(/configuration/*)", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("here", "count(/configuration/system.web/extra/@content)", result.asXML());
+
+    }
 }
+
+

@@ -21,10 +21,17 @@ public class SetAttributesTransform extends Transform {
         if (!targetElements.isEmpty()) {
             Element targetElement = targetElements.get(0);
             for (Attribute attribute : (List<Attribute>) transformElement.attributes()) {
-                targetElement.addAttribute(attribute.getQName(), attribute.getValue());
+                if (mustBeSet(attribute.getQName().getName()))
+                    targetElement.addAttribute(attribute.getQName(), attribute.getValue());
             }
         }
 
+    }
+
+    private boolean mustBeSet(String name) {
+        if (arguments == null || arguments.isEmpty())
+            return true;
+        return name.equals(arguments);
     }
 
     public SetAttributesTransform(Document workingDocument, Element transformElement, String arguments) {

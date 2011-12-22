@@ -25,16 +25,15 @@ public class InsertAfterTransform extends Transform {
 
             Element markedElement = (Element) targetElement.selectSingleNode(localPath);
             int indexOfMarkerElement = 0;
-            // TODO : Check the algo
             for (Element ptrElement : (List<Element>) targetElement.elements()) {
                 if (ptrElement == markedElement) break;
                 indexOfMarkerElement++;
             }
 
-            if (indexOfMarkerElement == targetElement.elements().size()-1)
+            if (indexOfMarkerElement == targetElement.elements().size() -1)
                 targetElement.add(getTransformElementCopy());
             else
-                targetElement.elements().add(indexOfMarkerElement + 1, transformElement.createCopy());
+                targetElement.elements().add(indexOfMarkerElement + 1, getTransformElementCopy());
 
 
         }

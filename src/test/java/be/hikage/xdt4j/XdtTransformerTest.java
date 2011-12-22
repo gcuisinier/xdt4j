@@ -14,13 +14,7 @@ import java.io.IOException;
 
 import static be.hikage.xdt4j.util.TestUtils.loadXml;
 
-/**
- * Created by IntelliJ IDEA.
- * User: hikage
- * Date: 21/12/11
- * Time: 11:36
- * To change this template use File | Settings | File Templates.
- */
+
 public class XdtTransformerTest {
 
     private Document baseDocument;
@@ -29,6 +23,34 @@ public class XdtTransformerTest {
     public void setUp() throws Exception {
 
         baseDocument = loadXml("SampleBase.xml");
+    }
+
+    @Test(expected = Exception.class )
+    public void TestInvalidTransform() throws Exception {
+        @Language("XML")
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <test xdt:Transform=\"..test))(()()(\"/>\n    \n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXMLEqual(baseDocument.asXML(), result.asXML());
+
+    }
+
+    @Test(expected = Exception.class )
+    public void TestUnknownValidator() throws Exception {
+        @Language("XML")
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <test xdt:Transform=\"Unknown\"/>\n    \n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXMLEqual(baseDocument.asXML(), result.asXML());
+
     }
 
     @Test
@@ -56,6 +78,36 @@ public class XdtTransformerTest {
         Document result = transformer.transform(baseDocument, transformDocument);
 
         XMLAssert.assertXpathEvaluatesTo("3", "count(/configuration/*)", result.asXML());
+
+
+    }
+
+    @Test
+    public void TestRemoveTransformWithMultipleElementThatMatch() throws DocumentException, IOException, SAXException, XpathException {
+        @Language("XML")
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add xdt:Transform=\"Remove\"/> \n    </appSettings>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("2", "count(/configuration/appSettings/add)", result.asXML());
+
+
+    }
+
+    @Test
+    public void TestRemoveAllTransform() throws DocumentException, IOException, SAXException, XpathException {
+        @Language("XML")
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add xdt:Transform=\"RemoveAll\"/> \n    </appSettings>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("0", "count(/configuration/appSettings/add)", result.asXML());
 
 
     }
@@ -150,6 +202,55 @@ public class XdtTransformerTest {
 
         XMLAssert.assertXpathEvaluatesTo("4", "count(/configuration/*)", result.asXML());
         XMLAssert.assertXpathEvaluatesTo("here", "/configuration/system.web/extra/@content", result.asXML());
+
+    }
+
+
+    @Test
+    public void TestConditionLocator() throws Exception {
+        @Language("XML")
+        final String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add key=\"key2\" value=\"value2-live\" xdt:Locator=\"Condition(@key='key2')\" xdt:Transform=\"SetAttributes\"/>\n    </appSettings>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("value1", "/configuration/appSettings/add[@key=\"key1\"]/@value", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("value2-live", "/configuration/appSettings/add[@key=\"key2\"]", result.asXML());
+
+
+    }
+
+    @Test
+    public void TestMultipleElementsAreTransformed() throws Exception {
+        @Language("XML")
+        final String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add key=\"key2\" value=\"value2-live\" xdt:Locator=\"Match(key)\" xdt:Transform=\"SetAttributes\"/>\n    </appSettings>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("value1", "/configuration/appSettings/add[@key=\"key1\"]/@value", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("value2-live", "/configuration/appSettings/add[@key=\"key2\"]", result.asXML());
+
+
+    }
+
+    @Test
+    public void TestInputDocumentsWithXmlNamespacesWorkAsExpected() throws Exception {
+        @Language("XML")
+        final String baseDocumentString = "<configuration>\n    <appSettings>\n        <add key=\"key1\" value=\"value1\"/>\n    </appSettings>\n    <blah xmlns=\"http://test.com\">\n        <add key=\"key2\" value=\"value2\"/>\n    </blah>\n    <flop xmlns=\"http://test.com\">\n        <add key=\"key3\" value=\"value3\" xmlns=\"\"/>\n    </flop>\n</configuration>";
+        Document baseDocument = TestUtils.loadXmlFromString(baseDocumentString);
+        @Language("XML")
+        final String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add value=\"value1-new\" xdt:Transform=\"SetAttributes\"/>\n    </appSettings>\n    <blah xmlns=\"http://test.com\">\n        <add key=\"key2\" value=\"value2-new\" xdt:Locator=\"Match(key)\" xdt:Transform=\"SetAttributes\"/>\n    </blah>\n    <flop xmlns=\"http://test.com\">\n        <add key=\"key3\" value=\"value3-new\" xmlns=\"\" xdt:Locator=\"Match(key)\" xdt:Transform=\"SetAttributes\"/>\n    </flop>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
 
     }
 }

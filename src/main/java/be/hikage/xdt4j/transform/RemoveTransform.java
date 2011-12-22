@@ -8,13 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: hikage
- * Date: 21/12/11
- * Time: 14:42
- * To change this template use File | Settings | File Templates.
- */
+
 public class RemoveTransform extends Transform {
 
     public static Logger LOG = LoggerFactory.getLogger(RemoveTransform.class);
@@ -34,10 +28,14 @@ public class RemoveTransform extends Transform {
             if (LOG.isDebugEnabled())
                 LOG.debug("Removing element : {}", toRemove.getPath());
 
-            toRemove.getParent().remove(toRemove);
+            applyRemove(toRemove.getParent(), targetElements);
 
         }
 
 
+    }
+
+    protected void applyRemove(Element containerElement, List<Element> targetElements) {
+        containerElement.remove(targetElements.get(0));
     }
 }

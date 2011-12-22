@@ -9,14 +9,8 @@ import java.lang.reflect.Constructor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by IntelliJ IDEA.
- * User: hikage
- * Date: 21/12/11
- * Time: 14:07
- * To change this template use File | Settings | File Templates.
- */
-public class XdtTransformFactory {
+
+public abstract class XdtTransformFactory {
 
     public static Logger LOG = LoggerFactory.getLogger(XdtTransformFactory.class);
 

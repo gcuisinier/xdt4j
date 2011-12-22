@@ -41,7 +41,7 @@ public class InsertAfterTransform extends Transform {
             }
 
             if (idx == targetElement.elements().size())
-                targetElement.add(transformElement.createCopy());
+                targetElement.add(getTransformElementCopy());
             else
                 targetElement.elements().add(idx + 1, transformElement.createCopy());
 

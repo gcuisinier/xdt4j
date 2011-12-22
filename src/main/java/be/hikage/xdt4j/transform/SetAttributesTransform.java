@@ -20,7 +20,7 @@ public class SetAttributesTransform extends Transform {
         List<Element> targetElements = workingDocument.selectNodes(transformElement.getPath());
         if (!targetElements.isEmpty()) {
             Element targetElement = targetElements.get(0);
-            for (Attribute attribute : (List<Attribute>) transformElement.attributes()) {
+            for (Attribute attribute : (List<Attribute>) getTransformElementCopy().attributes()) {
                 if (mustBeSet(attribute.getQName().getName()))
                     targetElement.addAttribute(attribute.getQName(), attribute.getValue());
             }

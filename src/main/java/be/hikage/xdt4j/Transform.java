@@ -1,9 +1,13 @@
 package be.hikage.xdt4j;
 
+import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,4 +46,21 @@ public abstract class Transform {
     }
 
     protected abstract void applyInternal();
+
+    protected Element getTransformElementCopy() {
+        Element tempElement = transformElement.createCopy();
+        List<Attribute> newAttributes = new ArrayList<Attribute>();
+
+        for (Attribute attribute : (List<Attribute>) tempElement.attributes()) {
+            if (XdtConstants.XDT_NAMESPACE.equals(attribute.getNamespaceURI()))
+                continue;
+            newAttributes.add(attribute);
+        }
+
+        tempElement.setAttributes(newAttributes);
+
+        return tempElement;
+
+    }
+
 }

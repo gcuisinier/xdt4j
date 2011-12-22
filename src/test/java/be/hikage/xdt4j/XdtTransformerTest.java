@@ -149,7 +149,7 @@ public class XdtTransformerTest {
         Document result = transformer.transform(baseDocument, transformDocument);
 
         XMLAssert.assertXpathEvaluatesTo("4", "count(/configuration/*)", result.asXML());
-        XMLAssert.assertXpathEvaluatesTo("here", "count(/configuration/system.web/extra/@content)", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("here", "/configuration/system.web/extra/@content", result.asXML());
 
     }
 }

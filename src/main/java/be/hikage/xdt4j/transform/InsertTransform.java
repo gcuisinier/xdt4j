@@ -27,7 +27,7 @@ public class InsertTransform extends Transform {
         if (!targetElements.isEmpty()) {
             Element targetElement = targetElements.get(0);
 
-            targetElement.add(transformElement.createCopy());
+            targetElement.add(getTransformElementCopy());
 
         }
     }

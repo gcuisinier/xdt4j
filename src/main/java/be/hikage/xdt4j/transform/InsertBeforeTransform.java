@@ -40,7 +40,7 @@ public class InsertBeforeTransform extends Transform {
                 idx++;
             }
 
-            targetElement.elements().add(idx, transformElement.createCopy());
+            targetElement.elements().add(idx, getTransformElementCopy());
 
 
         }

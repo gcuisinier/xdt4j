@@ -1,6 +1,7 @@
 #XDT4J - Xml Document Transform for Java
 
 Provide an Java implementation of the Microsoft XML Document Transform (XDT) language that was included with Visual Studio 2010 for transforming XML configuration files.
+It is inspired from the work of the Opensource C# implementation (http://code.google.com/p/xdt/)
 
 This allow to modify, extend or clean an XML simply.
 

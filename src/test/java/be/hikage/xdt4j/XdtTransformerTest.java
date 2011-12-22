@@ -127,6 +127,21 @@ public class XdtTransformerTest {
     }
 
     @Test
+    public void TestSetAttributesTransformWithMultipleElementsThatMatch() throws Exception {
+        @Language("XML")
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add value=\"newValue\" xdt:Transform=\"SetAttributes\"/>\n    </appSettings>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("newValue", "/configuration/appSettings/add[@key=\"key1\"]/@value", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("value2-dev", "/configuration/appSettings/add[@key=\"key2\"]/@value", result.asXML());
+
+
+    }
+
+    @Test
     public void TestSetAttributesTransformWithArguments() throws Exception {
         @Language("XML")
         String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <system.web>\n        <compilation debug=\"false\" xdt:Transform=\"SetAttributes(debug)\"/>\n    </system.web>\n</configuration>";

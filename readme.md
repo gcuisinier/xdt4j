@@ -27,7 +27,7 @@ generate this last :
 			<Logger name="myFirst" level="INFO"/>
 			<Logger name="second" level="WARN" />
 			</Logging>
-		</Root>
+	</Root>
 
 
 ##Building

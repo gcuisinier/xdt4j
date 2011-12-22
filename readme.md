@@ -40,20 +40,40 @@ generate this last :
 
 ### Insert
 
+Adds the element that is defined in the transform file as a sibling to the selected element or elements. The new element is added at the end of any collection.
+
+
 ### InsertBefore
+
+Inserts the element that is defined in the transform XML directly before the element that is selected by the specified XPath expression. The XPath expression must be an absolute expression, because it is applied to the development Web.config file as a whole; it is not appended only to the current element's implicit XPath expression.
 
 ### InsertAfter
 
+Inserts the element that is defined in the transform XML directly after the element that is selected by the specified XPath expression. The XPath expression must be an absolute expression, because it is applied to the development Web.config file as a whole; it is not appended to the current element's implicit XPath expression.
+
 ### Remove
+
+Removes the selected element. If multiple elements are selected, removes the first element.
 
 ### RemoveAll
 
+Removes the selected element or elements.
+
+
 ### SetAttribute
+
+Sets attributes for selected elements to the specified values. The Replace transform attribute replaces an entire element including all of its attributes. In contrast, the SetAttributes attribute enables you to leave the element as it is but change selected attributes. If you do not specify which attributes to change, all of the attributes that are present in the element in the transform file are changed.
+
+The SetAttributes transform affects all selected elements. This is different from the Replace transform attribute, which affects only the first selected element if multiple elements are selected.
 
 ### RemoveAttribute
 
+Removes specified attributes from the selected elements.
+If you do not specify which attributes to change, all of the attributes present are removed
+
 ### Replace
 
+Replaces the selected element with the element that is specified in the transform file. If more than one element is selected, only the first selected element is replaced. For an example of how to use the Replace keyword, see the examples for the Locator attributes.
 
 
 

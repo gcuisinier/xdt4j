@@ -1,5 +1,6 @@
-package be.hikage.xdt4j;
+package be.hikage.xdt4j.transform;
 
+import be.hikage.xdt4j.XdtException;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.slf4j.Logger;
@@ -9,14 +10,8 @@ import java.lang.reflect.Constructor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by IntelliJ IDEA.
- * User: hikage
- * Date: 21/12/11
- * Time: 14:07
- * To change this template use File | Settings | File Templates.
- */
-public class XdtTransformFactory {
+
+public abstract class XdtTransformFactory {
 
     public static Logger LOG = LoggerFactory.getLogger(XdtTransformFactory.class);
 
@@ -29,7 +24,7 @@ public class XdtTransformFactory {
         Matcher matcher = ATTRIBUTE_VALIDATOR_PATTERN.matcher(transformAttributeValue);
 
         if (!matcher.matches())
-            throw new IllegalArgumentException("The Transform Attributes value is invalid" + transformAttributeValue);
+            throw new XdtException("The Transform Attributes value is invalid" + transformAttributeValue);
 
 
         if (LOG.isDebugEnabled()) {
@@ -48,7 +43,7 @@ public class XdtTransformFactory {
 
 
         } catch (Exception e) {
-            throw new RuntimeException("TODO : Exception handling", e);
+            throw new XdtException("TODO : Exception handling", e);
         }
 
 

@@ -8,9 +8,14 @@
     <artifactId>xdt4j</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
     <name>Xml Document Transform for Java</name>
-    <description>Java implementation of the  Microsoft XML Document Transform languages</description>
+    <description>Java implementation of the Microsoft XML Document Transform languages</description>
 
     <licenses>
         <license>
@@ -43,8 +48,6 @@
     </scm>
 
 
-
-
     <dependencies>
         <dependency>
             <groupId>xmlunit</groupId>
@@ -62,6 +65,7 @@
             <groupId>org.kohsuke.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>9.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>dom4j</groupId>
@@ -91,8 +95,42 @@
             <scope>provided</scope>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>11.0</version>
+        </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>sign</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+
+    </profiles>
 
 
 </project>

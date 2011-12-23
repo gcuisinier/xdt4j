@@ -1,6 +1,5 @@
 package be.hikage.xdt4j.transform;
 
-import be.hikage.xdt4j.Transform;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.slf4j.Logger;
@@ -8,13 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: hikage
- * Date: 21/12/11
- * Time: 14:42
- * To change this template use File | Settings | File Templates.
- */
+
 public class ReplaceTransform extends Transform {
 
     public static Logger LOG = LoggerFactory.getLogger(ReplaceTransform.class);

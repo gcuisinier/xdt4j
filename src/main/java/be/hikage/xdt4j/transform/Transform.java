@@ -1,5 +1,8 @@
-package be.hikage.xdt4j;
+package be.hikage.xdt4j.transform;
 
+import be.hikage.xdt4j.XdtConstants;
+import be.hikage.xdt4j.locator.Locator;
+import be.hikage.xdt4j.locator.LocatorFactory;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -9,13 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: hikage
- * Date: 21/12/11
- * Time: 14:07
- * To change this template use File | Settings | File Templates.
- */
+
 public abstract class Transform {
 
     public static Logger LOG = LoggerFactory.getLogger(Transform.class);
@@ -34,13 +31,13 @@ public abstract class Transform {
 
     public void apply() {
 
-        if (LOG.isDebugEnabled())
-            LOG.debug("Before applying {}: {}", getClass().getName(), workingDocument.asXML());
+        if (LOG.isTraceEnabled())
+            LOG.trace("Before applying {}: {}", getClass().getName(), workingDocument.asXML());
 
         applyInternal();
 
-        if (LOG.isDebugEnabled())
-            LOG.debug("After applying {}: {}", getClass().getName(), workingDocument.asXML());
+        if (LOG.isTraceEnabled())
+            LOG.trace("After applying {}: {}", getClass().getName(), workingDocument.asXML());
 
 
     }
@@ -63,4 +60,15 @@ public abstract class Transform {
 
     }
 
+    protected String getXPath() {
+        Locator locator = LocatorFactory.createLocator(transformElement);
+        String xpath;
+        if (locator != null) {
+            xpath = locator.generateXPath(transformElement);
+        } else
+            xpath = transformElement.getPath();
+
+        LOG.debug("XPath outcome of Locator processing : {}", xpath);
+        return xpath;
+    }
 }

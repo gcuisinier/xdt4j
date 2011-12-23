@@ -1,5 +1,7 @@
 package be.hikage.xdt4j;
 
+import be.hikage.xdt4j.transform.Transform;
+import be.hikage.xdt4j.transform.XdtTransformFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -11,13 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: hikage
- * Date: 21/12/11
- * Time: 11:34
- * To change this template use File | Settings | File Templates.
- */
 public class XdtTransformer {
 
     public static Logger log = LoggerFactory.getLogger(XdtTransformer.class);

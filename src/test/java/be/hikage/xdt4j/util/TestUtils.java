@@ -7,13 +7,7 @@ import org.dom4j.io.SAXReader;
 
 import java.io.InputStream;
 
-/**
- * Created by IntelliJ IDEA.
- * User: hikage
- * Date: 21/12/11
- * Time: 11:45
- * To change this template use File | Settings | File Templates.
- */
+
 public class TestUtils {
 
 

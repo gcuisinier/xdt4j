@@ -23,7 +23,7 @@ public abstract class XdtTransformFactory {
         Matcher matcher = ATTRIBUTE_VALIDATOR_PATTERN.matcher(transformAttributeValue);
 
         if (!matcher.matches())
-            throw new IllegalArgumentException("The Transform Attributes value is invalid" + transformAttributeValue);
+            throw new XdtException("The Transform Attributes value is invalid" + transformAttributeValue);
 
 
         if (LOG.isDebugEnabled()) {
@@ -42,7 +42,7 @@ public abstract class XdtTransformFactory {
 
 
         } catch (Exception e) {
-            throw new RuntimeException("TODO : Exception handling", e);
+            throw new XdtException("TODO : Exception handling", e);
         }
 
 

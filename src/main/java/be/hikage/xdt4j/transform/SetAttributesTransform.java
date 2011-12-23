@@ -4,14 +4,20 @@ import be.hikage.xdt4j.Transform;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 
 public class SetAttributesTransform extends Transform {
+
+    public static Logger LOG = LoggerFactory.getLogger(SetAttributesTransform.class);
+
+
     @Override
     public void applyInternal() {
-        List<Element> targetElements = workingDocument.selectNodes(transformElement.getPath());
+        List<Element> targetElements = workingDocument.selectNodes(getXPath());
         if (!targetElements.isEmpty()) {
             Element targetElement = targetElements.get(0);
             for (Attribute attribute : (List<Attribute>) getTransformElementCopy().attributes()) {
@@ -21,6 +27,7 @@ public class SetAttributesTransform extends Transform {
         }
 
     }
+
 
     private boolean mustBeSet(String name) {
         if (arguments == null || arguments.isEmpty())

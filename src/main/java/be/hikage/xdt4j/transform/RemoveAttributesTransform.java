@@ -11,7 +11,7 @@ import java.util.List;
 public class RemoveAttributesTransform extends Transform {
     @Override
     public void applyInternal() {
-        List<Element> targetElements = workingDocument.selectNodes(transformElement.getPath());
+        List<Element> targetElements = workingDocument.selectNodes(getXPath());
         if (!targetElements.isEmpty()) {
             Element targetElement = targetElements.get(0);
             for (Attribute attribute : (List<Attribute>) getTransformElementCopy().attributes()) {

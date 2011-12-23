@@ -3,17 +3,18 @@ package be.hikage.xdt4j;
 import be.hikage.xdt4j.util.TestUtils;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
+import org.dom4j.*;
 import org.intellij.lang.annotations.Language;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import static be.hikage.xdt4j.util.TestUtils.loadXml;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 public class XdtTransformerTest {
@@ -26,7 +27,7 @@ public class XdtTransformerTest {
         baseDocument = loadXml("SampleBase.xml");
     }
 
-    @Test(expected = Exception.class)
+    @Test(expected = XdtException.class)
     public void TestInvalidTransform() throws Exception {
         @Language("XML")
         String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <test xdt:Transform=\"..test))(()()(\"/>\n    \n</configuration>";
@@ -40,7 +41,7 @@ public class XdtTransformerTest {
 
     }
 
-    @Test(expected = Exception.class)
+    @Test(expected = XdtException.class)
     public void TestUnknownValidator() throws Exception {
         @Language("XML")
         String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <test xdt:Transform=\"Unknown\"/>\n    \n</configuration>";
@@ -257,7 +258,6 @@ public class XdtTransformerTest {
 
 
     @Test
-    @Ignore
     public void TestConditionLocator() throws Exception {
         @Language("XML")
         final String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add key=\"key2\" value=\"value2-live\" xdt:Locator=\"Condition(@key='key2')\" xdt:Transform=\"SetAttributes\"/>\n    </appSettings>\n</configuration>";
@@ -268,13 +268,12 @@ public class XdtTransformerTest {
         Document result = transformer.transform(baseDocument, transformDocument);
 
         XMLAssert.assertXpathEvaluatesTo("value1", "/configuration/appSettings/add[@key=\"key1\"]/@value", result.asXML());
-        XMLAssert.assertXpathEvaluatesTo("value2-live", "/configuration/appSettings/add[@key=\"key2\"]", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("value2-live", "/configuration/appSettings/add[@key=\"key2\"]/@value", result.asXML());
 
 
     }
 
     @Test
-    @Ignore
     public void TestMultipleElementsAreTransformed() throws Exception {
         @Language("XML")
         final String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add key=\"key2\" value=\"value2-live\" xdt:Locator=\"Match(key)\" xdt:Transform=\"SetAttributes\"/>\n    </appSettings>\n</configuration>";
@@ -285,13 +284,13 @@ public class XdtTransformerTest {
         Document result = transformer.transform(baseDocument, transformDocument);
 
         XMLAssert.assertXpathEvaluatesTo("value1", "/configuration/appSettings/add[@key=\"key1\"]/@value", result.asXML());
-        XMLAssert.assertXpathEvaluatesTo("value2-live", "/configuration/appSettings/add[@key=\"key2\"]", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("value2-live", "/configuration/appSettings/add[@key=\"key2\"]/@value", result.asXML());
 
 
     }
 
     @Test
-    @Ignore
+
     public void TestInputDocumentsWithXmlNamespacesWorkAsExpected() throws Exception {
         @Language("XML")
         final String baseDocumentString = "<configuration>\n    <appSettings>\n        <add key=\"key1\" value=\"value1\"/>\n    </appSettings>\n    <blah xmlns=\"http://test.com\">\n        <add key=\"key2\" value=\"value2\"/>\n    </blah>\n    <flop xmlns=\"http://test.com\">\n        <add key=\"key3\" value=\"value3\" xmlns=\"\"/>\n    </flop>\n</configuration>";
@@ -304,7 +303,22 @@ public class XdtTransformerTest {
         XdtTransformer transformer = new XdtTransformer();
         Document result = transformer.transform(baseDocument, transformDocument);
 
+        String nsString = "http://test.com";
 
+        XPath xPath1 = DocumentHelper.createXPath("/configuration/ns:blah/*[local-name()='add' and @key=\"key2\"]");
+        xPath1.setNamespaceURIs(Collections.singletonMap("ns", nsString));
+
+        Element foundElement = (Element) xPath1.selectSingleNode(result);
+        assertNotNull("No element found", foundElement);
+        assertEquals("Namespace are different", nsString, foundElement.getNamespaceURI());
+
+        XPath xPath2 = DocumentHelper.createXPath("/configuration/ns:flop/*[local-name()='add' and @key=\"key3\"]");
+        xPath2.setNamespaceURIs(Collections.singletonMap("ns", nsString));
+
+
+        foundElement = (Element) xPath2.selectSingleNode(result);
+        assertNotNull("No Element found 2", foundElement);
+        assertEquals("Namespace are different", "", foundElement.getNamespaceURI());
     }
 }
 

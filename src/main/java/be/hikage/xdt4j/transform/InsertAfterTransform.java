@@ -30,7 +30,7 @@ public class InsertAfterTransform extends Transform {
                 indexOfMarkerElement++;
             }
 
-            if (indexOfMarkerElement == targetElement.elements().size() -1)
+            if (indexOfMarkerElement == targetElement.elements().size() - 1)
                 targetElement.add(getTransformElementCopy());
             else
                 targetElement.elements().add(indexOfMarkerElement + 1, getTransformElementCopy());
@@ -42,7 +42,7 @@ public class InsertAfterTransform extends Transform {
     private String getRelativeXPath() {
         String localPath = arguments;
         if (localPath.startsWith(transformElement.getParent().getPath())) {
-            localPath = localPath.substring(transformElement.getParent().getPath().length()+1);
+            localPath = localPath.substring(transformElement.getParent().getPath().length() + 1);
             LOG.debug("Simplify Path : {} -> {}", arguments, localPath);
         }
         return localPath;

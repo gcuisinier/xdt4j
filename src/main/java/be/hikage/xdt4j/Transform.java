@@ -1,5 +1,7 @@
 package be.hikage.xdt4j;
 
+import be.hikage.xdt4j.locator.Locator;
+import be.hikage.xdt4j.locator.LocatorFactory;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -57,4 +59,15 @@ public abstract class Transform {
 
     }
 
+    protected String getXPath() {
+        Locator locator = LocatorFactory.createLocator(transformElement);
+        String xpath;
+        if (locator != null) {
+            xpath = locator.generateXPath(transformElement);
+        } else
+            xpath = transformElement.getPath();
+
+        LOG.debug("XPath outcome of Locator processing : {}", xpath);
+        return xpath;
+    }
 }

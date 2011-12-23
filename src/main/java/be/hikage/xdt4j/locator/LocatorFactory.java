@@ -37,6 +37,8 @@ public abstract class LocatorFactory {
             return new ConditionLocator(locatorParameter);
         } else if ("Match".equals(locatorType))
             return new MatchLocator(locatorParameter);
+        else if ("XPath".equals(locatorType))
+            return new XPathLocator(locatorParameter);
 
         return null;
 

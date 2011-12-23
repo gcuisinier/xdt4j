@@ -1,5 +1,6 @@
-package be.hikage.xdt4j;
+package be.hikage.xdt4j.transform;
 
+import be.hikage.xdt4j.XdtConstants;
 import be.hikage.xdt4j.locator.Locator;
 import be.hikage.xdt4j.locator.LocatorFactory;
 import org.dom4j.Attribute;

@@ -3,17 +3,15 @@ package be.hikage.xdt4j.locator;
 import be.hikage.xdt4j.XdtException;
 import org.dom4j.Element;
 
-public class ConditionLocator extends Locator {
-    public ConditionLocator(String parameter) {
+public class XPathLocator extends Locator {
+    public XPathLocator(String parameter) {
         super(parameter);
         if (parameter == null || parameter.isEmpty())
-            throw new XdtException("Parameter is mandatory for ConditionLocator");
+            throw new XdtException("Parameter is mandatory for XPathLocator");
     }
 
     @Override
     public String generateXPath(Element target) {
-        return target.getPath() + "[" + getParameter() + "]";
+        return getParameter();
     }
-
-
 }

@@ -1,5 +1,7 @@
 package be.hikage.xdt4j;
 
+import be.hikage.xdt4j.transform.Transform;
+import be.hikage.xdt4j.transform.XdtTransformFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;

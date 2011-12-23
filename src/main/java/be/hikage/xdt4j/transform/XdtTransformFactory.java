@@ -1,5 +1,6 @@
-package be.hikage.xdt4j;
+package be.hikage.xdt4j.transform;
 
+import be.hikage.xdt4j.XdtException;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.slf4j.Logger;

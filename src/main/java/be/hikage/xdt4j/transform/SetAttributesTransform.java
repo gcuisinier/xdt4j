@@ -1,6 +1,5 @@
 package be.hikage.xdt4j.transform;
 
-import be.hikage.xdt4j.Transform;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;

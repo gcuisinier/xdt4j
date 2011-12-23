@@ -43,8 +43,8 @@
 
     <scm>
         <url>https://github.com/hikage/xdt4j</url>
-        <connection>git://github.com/hikage/xdt4j.git</connection>
-        <developerConnection>git@github.com:hikage/xdt4j.git</developerConnection>
+        <connection>scm:git:git://github.com/hikage/xdt4j.git</connection>
+        <developerConnection>scm:git:git@github.com:hikage/xdt4j.git</developerConnection>
     </scm>
 
 

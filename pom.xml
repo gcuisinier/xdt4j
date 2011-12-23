@@ -4,7 +4,7 @@
 
     <groupId>be.hikage</groupId>
     <artifactId>xdt4j</artifactId>
-    <version>1.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <parent>
         <groupId>org.sonatype.oss</groupId>

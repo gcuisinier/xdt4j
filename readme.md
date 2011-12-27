@@ -64,6 +64,7 @@ To use lasted snapshot, you have to use the OSS Sonatype repository :
 Adds the element that is defined in the transform file as a sibling to the selected element or elements. The new element is added at the end of any collection.
 
 Example :
+
 ```xml
 <Root xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
 	<Logging>

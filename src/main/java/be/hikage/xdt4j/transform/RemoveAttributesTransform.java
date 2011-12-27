@@ -12,13 +12,13 @@ public class RemoveAttributesTransform extends Transform {
     public void applyInternal() {
         List<Element> targetElements = workingDocument.selectNodes(getXPath());
         if (!targetElements.isEmpty()) {
-            Element targetElement = targetElements.get(0);
-            for (Attribute attribute : (List<Attribute>) getTransformElementCopy().attributes()) {
-                if (mustBeRemove(attribute.getQName().getName())) {
-                    Attribute attributeToRemove = targetElement.attribute(attribute.getQName());
-                    targetElement.remove(attributeToRemove);
+            for (Element targetElement : targetElements)
+                for (Attribute attribute : (List<Attribute>) getTransformElementCopy().attributes()) {
+                    if (mustBeRemove(attribute.getQName().getName())) {
+                        Attribute attributeToRemove = targetElement.attribute(attribute.getQName());
+                        targetElement.remove(attributeToRemove);
+                    }
                 }
-            }
         }
 
     }

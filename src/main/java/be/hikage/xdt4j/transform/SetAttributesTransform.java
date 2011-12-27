@@ -18,11 +18,11 @@ public class SetAttributesTransform extends Transform {
     public void applyInternal() {
         List<Element> targetElements = workingDocument.selectNodes(getXPath());
         if (!targetElements.isEmpty()) {
-            Element targetElement = targetElements.get(0);
-            for (Attribute attribute : (List<Attribute>) getTransformElementCopy().attributes()) {
-                if (mustBeSet(attribute.getQName().getName()))
-                    targetElement.addAttribute(attribute.getQName(), attribute.getValue());
-            }
+            for (Element targetElement : targetElements)
+                for (Attribute attribute : (List<Attribute>) getTransformElementCopy().attributes()) {
+                    if (mustBeSet(attribute.getQName().getName()))
+                        targetElement.addAttribute(attribute.getQName(), attribute.getValue());
+                }
         }
 
     }

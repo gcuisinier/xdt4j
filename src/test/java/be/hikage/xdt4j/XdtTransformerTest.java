@@ -138,7 +138,7 @@ public class XdtTransformerTest {
         Document result = transformer.transform(baseDocument, transformDocument);
 
         XMLAssert.assertXpathEvaluatesTo("newValue", "/configuration/appSettings/add[@key=\"key1\"]/@value", result.asXML());
-        XMLAssert.assertXpathEvaluatesTo("value2-dev", "/configuration/appSettings/add[@key=\"key2\"]/@value", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("newValue", "/configuration/appSettings/add[@key=\"key2\"]/@value", result.asXML());
 
 
     }
@@ -181,6 +181,21 @@ public class XdtTransformerTest {
         Document result = transformer.transform(baseDocument, transformDocument);
 
         XMLAssert.assertXpathEvaluatesTo("", "/configuration/system.web/compilation/@debug", result.asXML());
+
+
+    }
+
+    @Test
+    public void TestRemoveAttributesTransformWithMultipleElementsThatMatch() throws Exception {
+        @Language("XML")
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings>\n        <add value=\"newValue\" xdt:Transform=\"RemoveAttributes\"/>\n    </appSettings>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("", "/configuration/appSettings/add[@key=\"key1\"]/@value", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("", "/configuration/appSettings/add[@key=\"key2\"]/@value", result.asXML());
 
 
     }

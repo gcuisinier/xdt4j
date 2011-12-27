@@ -6,6 +6,7 @@ It is inspired from the work of the Opensource C# implementation (http://code.go
 This allow to modify, extend or clean an XML simply.
 
 By example, binding this XML
+
 ```xml
 <Root>
 	<Logging>

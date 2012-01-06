@@ -1,5 +1,6 @@
 package be.hikage.xdt4j.transform;
 
+import be.hikage.xdt4j.locator.LocatorUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.slf4j.Logger;
@@ -14,7 +15,8 @@ public class InsertTransform extends Transform {
     @Override
     public void applyInternal() {
 
-        List<Element> targetElements = workingDocument.selectNodes(transformElement.getParent().getPath());
+        //List<Element> targetElements = workingDocument.selectNodes(transformElement.getParent().getPath());
+        List<Element> targetElements = workingDocument.selectNodes(LocatorUtils.uniqueXPathFromLocator(transformElement.getParent()));
 
         if (!targetElements.isEmpty()) {
             Element targetElement = targetElements.get(0);

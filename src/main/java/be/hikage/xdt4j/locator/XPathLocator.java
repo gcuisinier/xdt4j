@@ -14,4 +14,9 @@ public class XPathLocator extends Locator {
     public String generateXPath(Element target) {
         return getParameter();
     }
+
+    @Override
+    public String generateCondition(Element target) {
+        throw new UnsupportedOperationException("XPathLocator do not allow condition to relative element");
+    }
 }

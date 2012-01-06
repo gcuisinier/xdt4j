@@ -221,7 +221,7 @@ public class XdtTransformerTest {
     @Test
     public void TestInsertTransformSpecificChildren() throws Exception {
         @Language("XML")
-        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    \n    <fileSets>\n        <fileSet id=\"fileset2\">\n            <file xdt:Transform=\"Insert\">myfile4.4</file>\n        </fileSet>\n        \n    </fileSets>\n</configuration>";
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    \n    <fileSets>\n        <fileSet id=\"fileset2\" xdt:Locator=\"Match(id)\">\n            <file xdt:Transform=\"Insert\">myfile4.4</file>\n        </fileSet>\n        \n    </fileSets>\n</configuration>";
         Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
 
 
@@ -229,7 +229,7 @@ public class XdtTransformerTest {
         Document result = transformer.transform(baseDocument, transformDocument);
 
         XMLAssert.assertXpathEvaluatesTo("3", "count(/configuration/fileSets/fileSet[@id='fileset2']/file)", result.asXML());
-        XMLAssert.assertXpathEvaluatesTo("myfile4.4", "/configuration/fileSets/fileSet[@id='fileset2']/file[last]/@value", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("myfile4.4", "/configuration/fileSets/fileSet[@id='fileset2']/file[last()]/text()", result.asXML());
 
 
     }

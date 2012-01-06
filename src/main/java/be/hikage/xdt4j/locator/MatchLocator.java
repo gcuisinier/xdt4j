@@ -1,6 +1,7 @@
 package be.hikage.xdt4j.locator;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import org.dom4j.Attribute;
 import org.dom4j.Element;
 
@@ -19,9 +20,20 @@ public class MatchLocator extends Locator {
         List<String> conditionsList = new ArrayList<String>();
         StringBuilder resultXpath = new StringBuilder(target.getPath());
 
+        resultXpath.append(generateCondition(target));
 
-        if (parameter != null && !parameter.isEmpty()) {
-            resultXpath.append("[");
+
+        return resultXpath.toString();
+
+    }
+
+    @Override
+    public String generateCondition(Element target) {
+        StringBuilder xPathCondition = new StringBuilder();
+        List<String> conditionsList = new ArrayList<String>();
+
+        if (!Strings.isNullOrEmpty(parameter)) {
+            xPathCondition.append("[");
             String[] tokens = parameter.split(",");
             for (String attributeName : tokens) {
                 Attribute attr = target.attribute(attributeName);
@@ -30,13 +42,11 @@ public class MatchLocator extends Locator {
                 conditionsList.add(builder.toString());
 
             }
-            Joiner.on(" and ").appendTo(resultXpath, conditionsList);
-            resultXpath.append("]");
+            Joiner.on(" and ").appendTo(xPathCondition, conditionsList);
+            xPathCondition.append("]");
         }
 
-
-        return resultXpath.toString();
-
+        return xPathCondition.toString();
     }
 
 

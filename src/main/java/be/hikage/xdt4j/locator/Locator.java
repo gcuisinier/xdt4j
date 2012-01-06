@@ -15,4 +15,7 @@ public abstract class Locator {
     }
 
     public abstract String generateXPath(Element target);
+
+    public abstract String generateCondition(Element target);
+
 }

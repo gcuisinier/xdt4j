@@ -12,7 +12,12 @@ public class ConditionLocator extends Locator {
 
     @Override
     public String generateXPath(Element target) {
-        return target.getPath() + "[" + getParameter() + "]";
+        return target.getPath() + generateCondition(target);
+    }
+
+    @Override
+    public String generateCondition(Element target) {
+        return "[" + getParameter() + "]";
     }
 
 

@@ -9,6 +9,16 @@
         <add key="key2" value="value2-dev"/>
         <add key="key3" value="value3-dev"/>
     </appSettings>
+    <fileSets>
+        <fileSet id="fileset1">
+            <file>myfile1</file>
+            <file>myfile2</file>
+        </fileSet>
+        <fileSet id="fileset2">
+            <file>myfile3</file>
+            <file>myfile4</file>
+        </fileSet>
+    </fileSets>
     <system.net>
         <mailSettings>
             <smtp>

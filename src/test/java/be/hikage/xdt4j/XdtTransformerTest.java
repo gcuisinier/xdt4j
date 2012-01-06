@@ -75,11 +75,12 @@ public class XdtTransformerTest {
         String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <system.web xdt:Transform=\"Remove\"/>\n</configuration>";
         Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
 
+        Integer childrenCountBefore =  Integer.valueOf(baseDocument.valueOf("count(/configuration/*)"));
 
         XdtTransformer transformer = new XdtTransformer();
         Document result = transformer.transform(baseDocument, transformDocument);
 
-        XMLAssert.assertXpathEvaluatesTo("3", "count(/configuration/*)", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo(String.valueOf(--childrenCountBefore), "count(/configuration/*)", result.asXML());
 
 
     }
@@ -266,7 +267,7 @@ public class XdtTransformerTest {
         XdtTransformer transformer = new XdtTransformer();
         Document result = transformer.transform(baseDocument, transformDocument);
 
-        XMLAssert.assertXpathEvaluatesTo("4", "count(/configuration/*)", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("5", "count(/configuration/*)", result.asXML());
         XMLAssert.assertXpathEvaluatesTo("here", "/configuration/system.web/extra/@content", result.asXML());
 
     }

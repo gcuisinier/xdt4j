@@ -14,16 +14,20 @@ public abstract class LocatorFactory {
     private static final Pattern LOCATOR_VALIDATOR_PATTERN = Pattern.compile("(\\w*)(\\((.*)\\))?");
 
 
+    /**
+     * Returns an instance corresponding to the value of the attribute "Locator" of the element parameter, or null if the attribute is empty or invalid.
+     * In case of the attribute value is not in a valid format, an XdtException will be thrown
+     *
+     * @param element The Element for which a Locator must be created
+     * @return tine {@link Locator} instance, or null
+     * @throws XdtException If the attribute is not in a valid format
+     */
     public static final Locator createLocator(Element element) {
-        String locatorAtrributeValue = element.attributeValue("Locator", null);
-        if (locatorAtrributeValue == null)
+        String locatorAttributeValue = element.attributeValue("Locator", null);
+        if (locatorAttributeValue == null)
             return null;
 
-        Matcher locatorMatcher = LOCATOR_VALIDATOR_PATTERN.matcher(locatorAtrributeValue);
-
-        if (!locatorMatcher.matches())
-            throw new XdtException("The Transform Attributes value is invalid " + locatorAtrributeValue);
-
+        Matcher locatorMatcher = extractArgumentAndValidate(locatorAttributeValue);
 
         String locatorType = locatorMatcher.group(1);
         String locatorParameter = locatorMatcher.group(3);
@@ -33,6 +37,12 @@ public abstract class LocatorFactory {
             LOG.debug("Locator Parameter : {}", locatorParameter);
         }
 
+        return instantiateImplementation(locatorType, locatorParameter);
+
+
+    }
+    
+    private static Locator instantiateImplementation(String locatorType, String locatorParameter){
         if ("Condition".equals(locatorType)) {
             return new ConditionLocator(locatorParameter);
         } else if ("Match".equals(locatorType))
@@ -43,5 +53,13 @@ public abstract class LocatorFactory {
         return null;
 
 
+    }
+
+    private static Matcher extractArgumentAndValidate(String locatorAttributeValue) {
+        Matcher locatorMatcher = LOCATOR_VALIDATOR_PATTERN.matcher(locatorAttributeValue);
+
+        if (!locatorMatcher.matches())
+            throw new XdtException("The Transform Attributes value is invalid " + locatorAttributeValue);
+        return locatorMatcher;
     }
 }

@@ -22,7 +22,6 @@ public class MatchLocator extends Locator {
 
         resultXpath.append(generateCondition(target));
 
-
         return resultXpath.toString();
 
     }
@@ -33,6 +32,7 @@ public class MatchLocator extends Locator {
         List<String> conditionsList = new ArrayList<String>();
 
         if (!Strings.isNullOrEmpty(parameter)) {
+            // Create Query in form @attribute = "value"
             xPathCondition.append("[");
             String[] tokens = parameter.split(",");
             for (String attributeName : tokens) {

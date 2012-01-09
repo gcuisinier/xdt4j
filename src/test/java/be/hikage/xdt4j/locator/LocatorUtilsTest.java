@@ -19,7 +19,7 @@ public class LocatorUtilsTest {
         Element addElement = loadElement(xmlDoc, "/configuration/appSettings[@id='2']/add");
 
 
-        String expectedXPath = LocatorUtils.uniqueXPathFromLocator(addElement);
+        String expectedXPath = LocatorUtils.generateSpecificXPath(addElement);
 
         assertNotNull(expectedXPath);
         assertEquals("/configuration/appSettings/add", expectedXPath);
@@ -34,7 +34,7 @@ public class LocatorUtilsTest {
         Element addElement = loadElement(xmlDoc, "/configuration/appSettings[@id=\"2\"]/add");
 
 
-        String expectedXPath = LocatorUtils.uniqueXPathFromLocator(addElement);
+        String expectedXPath = LocatorUtils.generateSpecificXPath(addElement);
 
         assertNotNull(expectedXPath);
         assertEquals("/configuration/appSettings[@id=\"2\"]/add", expectedXPath);
@@ -49,7 +49,7 @@ public class LocatorUtilsTest {
         Element addElement = loadElement(xmlDoc, "/configuration/appSettings[@id=\"2\"]/add");
 
 
-        String expectedXPath = LocatorUtils.uniqueXPathFromLocator(addElement);
+        String expectedXPath = LocatorUtils.generateSpecificXPath(addElement);
 
         assertNotNull(expectedXPath);
         assertEquals("/configuration/appSettings[@id='2']/add", expectedXPath);
@@ -65,7 +65,7 @@ public class LocatorUtilsTest {
         Element addElement = loadElement(xmlDoc, "/configuration/appSettings[@id=\"2\"]/add");
 
 
-        String expectedXPath = LocatorUtils.uniqueXPathFromLocator(addElement);
+        String expectedXPath = LocatorUtils.generateSpecificXPath(addElement);
 
         assertNotNull(expectedXPath);
         assertEquals("/configuration/appSettings[@id='2']/add", expectedXPath);

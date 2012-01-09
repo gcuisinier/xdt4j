@@ -16,7 +16,7 @@ public class InsertTransform extends Transform {
     public void applyInternal() {
 
         //List<Element> targetElements = workingDocument.selectNodes(transformElement.getParent().getPath());
-        List<Element> targetElements = workingDocument.selectNodes(LocatorUtils.uniqueXPathFromLocator(transformElement.getParent()));
+        List<Element> targetElements = workingDocument.selectNodes(LocatorUtils.generateSpecificXPath(transformElement.getParent()));
 
         if (!targetElements.isEmpty()) {
             Element targetElement = targetElements.get(0);

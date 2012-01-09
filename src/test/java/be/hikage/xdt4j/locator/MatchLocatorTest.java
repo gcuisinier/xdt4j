@@ -1,10 +1,10 @@
 package be.hikage.xdt4j.locator;
 
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.intellij.lang.annotations.Language;
 import org.junit.Test;
 
+import static be.hikage.xdt4j.util.TestUtils.loadElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -60,12 +60,5 @@ public class MatchLocatorTest {
         assertEquals("/configuration/appSettings/add[@value=\"value2-live\" and @key=\"key2\"]", resultXPath);
     }
 
-    private Element loadElement(String xmlDoc, String xPath) {
-        try {
-            return (Element) DocumentHelper.parseText(xmlDoc).selectSingleNode(xPath);
-        } catch (Exception e) {
-            throw new RuntimeException("Bad XPath expression", e);
-        }
 
-    }
 }

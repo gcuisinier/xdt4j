@@ -1,11 +1,11 @@
 package be.hikage.xdt4j.locator;
 
 import be.hikage.xdt4j.XdtException;
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.intellij.lang.annotations.Language;
 import org.junit.Test;
 
+import static be.hikage.xdt4j.util.TestUtils.loadElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -44,12 +44,4 @@ public class XPathLocatorTest {
     }
 
 
-    private Element loadElement(String xmlDoc, String xPath) {
-        try {
-            return (Element) DocumentHelper.parseText(xmlDoc).selectSingleNode(xPath);
-        } catch (Exception e) {
-            throw new RuntimeException("Bad XPath expression", e);
-        }
-
-    }
 }

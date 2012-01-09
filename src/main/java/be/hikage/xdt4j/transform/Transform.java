@@ -23,7 +23,7 @@ public abstract class Transform {
     protected Document workingDocument;
     protected String arguments;
 
-    protected Transform(Document workingDocument, Element transformElement, String arguments) {
+    public Transform(Document workingDocument, Element transformElement, String arguments) {
         this.workingDocument = workingDocument;
         this.transformElement = transformElement;
         this.arguments = arguments;

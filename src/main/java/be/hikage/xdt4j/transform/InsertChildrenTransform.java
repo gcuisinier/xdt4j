@@ -2,7 +2,6 @@ package be.hikage.xdt4j.transform;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
-import org.dom4j.Node;
 
 import java.util.List;
 

@@ -7,20 +7,22 @@ import org.dom4j.Element;
 import java.util.List;
 
 
-public class RemoveAttributesTransform extends Transform {
-    @Override
-    public void applyInternal() {
-        List<Element> targetElements = workingDocument.selectNodes(getXPath());
-        if (!targetElements.isEmpty()) {
-            for (Element targetElement : targetElements)
-                for (Attribute attribute : (List<Attribute>) getTransformElementCopy().attributes()) {
-                    if (mustBeRemove(attribute.getQName().getName())) {
-                        Attribute attributeToRemove = targetElement.attribute(attribute.getQName());
-                        targetElement.remove(attributeToRemove);
-                    }
-                }
-        }
+public class RemoveAttributesTransform extends AbstractAllChildBasedTransform {
 
+
+    @Override
+    protected void processElement(Element targetElement) {
+        for (Attribute attribute : (List<Attribute>) getTransformElementCopy().attributes()) {
+            if (mustBeRemove(attribute.getQName().getName())) {
+                Attribute attributeToRemove = targetElement.attribute(attribute.getQName());
+                targetElement.remove(attributeToRemove);
+            }
+        }
+    }
+
+    @Override
+    protected String getSelectionQuery() {
+        return getXPath();
     }
 
     private boolean mustBeRemove(String name) {

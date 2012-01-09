@@ -6,24 +6,19 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+public class InsertTransform extends AbstractFirstChildBasedTransform {
 
-public class InsertTransform extends Transform {
+    private static Logger LOG = LoggerFactory.getLogger(InsertTransform.class);
 
-    public static Logger LOG = LoggerFactory.getLogger(InsertTransform.class);
 
     @Override
-    public void applyInternal() {
+    protected void processElement(Element targetElement) {
+        targetElement.add(getTransformElementCopy());
+    }
 
-        //List<Element> targetElements = workingDocument.selectNodes(transformElement.getParent().getPath());
-        List<Element> targetElements = workingDocument.selectNodes(LocatorUtils.generateSpecificXPath(transformElement.getParent()));
-
-        if (!targetElements.isEmpty()) {
-            Element targetElement = targetElements.get(0);
-
-            targetElement.add(getTransformElementCopy());
-
-        }
+    @Override
+    protected String getSelectionQuery() {
+        return LocatorUtils.generateSpecificXPath(transformElement.getParent());
     }
 
     public InsertTransform(Document workingDocument, Element transformElement, String arguments) {

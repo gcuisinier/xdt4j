@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class Transform {
 
-    public static Logger LOG = LoggerFactory.getLogger(Transform.class);
+    private static Logger LOG = LoggerFactory.getLogger(Transform.class);
 
 
     protected Element transformElement;

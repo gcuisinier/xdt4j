@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 public abstract class XdtTransformFactory {
 
-    public static Logger LOG = LoggerFactory.getLogger(XdtTransformFactory.class);
+    private static Logger LOG = LoggerFactory.getLogger(XdtTransformFactory.class);
 
 
     private static final Pattern ATTRIBUTE_VALIDATOR_PATTERN = Pattern.compile("(\\w*)(\\((.*)\\))?");

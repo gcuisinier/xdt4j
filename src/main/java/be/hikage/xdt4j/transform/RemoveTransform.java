@@ -5,36 +5,33 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 
+public class RemoveTransform extends AbstractXPathSelectionBaseTransform {
 
-public class RemoveTransform extends Transform {
-
-    public static Logger LOG = LoggerFactory.getLogger(RemoveTransform.class);
+    private static Logger LOG = LoggerFactory.getLogger(RemoveTransform.class);
 
 
     public RemoveTransform(Document workingDocument, Element transformElement, String arguments) {
-        super(workingDocument, transformElement, arguments);
+        super(workingDocument, transformElement, arguments, ProcessChildenStrategy.FIRST);
+    }
+
+    protected RemoveTransform(Document workingDocument, Element transformElement, String arguments, ProcessChildenStrategy strategy) {
+        super(workingDocument, transformElement, arguments, strategy);
     }
 
     @Override
-    public void applyInternal() {
-
-        List<Element> targetElements = workingDocument.selectNodes(transformElement.getPath());
-
-        if (targetElements.size() >= 1) {
-            Element toRemove = targetElements.get(0);
-            if (LOG.isDebugEnabled())
-                LOG.debug("Removing element : {}", toRemove.getPath());
-
-            applyRemove(toRemove.getParent(), targetElements);
-
-        }
+    protected void processElement(Element targetElement) {
+        if (LOG.isDebugEnabled())
+            LOG.debug("Removing element : {}", targetElement.getPath());
 
 
+        targetElement.getParent().remove(targetElement);
     }
 
-    protected void applyRemove(Element containerElement, List<Element> targetElements) {
-        containerElement.remove(targetElements.get(0));
+    @Override
+    protected String getSelectionQuery() {
+        return transformElement.getPath();
     }
+
+
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class XdtTransformer {
 
-    public static Logger log = LoggerFactory.getLogger(XdtTransformer.class);
+    private static Logger LOG = LoggerFactory.getLogger(XdtTransformer.class);
 
 
     public Document transform(Document inputDocument, Document transformDocument) {
@@ -30,8 +30,8 @@ public class XdtTransformer {
 
         List<Transform> transformToApply = new ArrayList<Transform>();
 
-        if (log.isInfoEnabled())
-            log.info("Found {} elements to process", xdtNode.size());
+        if (LOG.isInfoEnabled())
+            LOG.info("Found {} elements to process", xdtNode.size());
         for (Element xdtElement : xdtNode) {
             transformToApply.add(XdtTransformFactory.createTransform(xdtElement, workingCopy));
         }

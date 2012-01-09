@@ -9,22 +9,22 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 
-public class SetAttributesTransform extends Transform {
+public class SetAttributesTransform extends AbstractAllChildBasedTransform {
 
-    public static Logger LOG = LoggerFactory.getLogger(SetAttributesTransform.class);
+    private static Logger LOG = LoggerFactory.getLogger(SetAttributesTransform.class);
 
 
     @Override
-    public void applyInternal() {
-        List<Element> targetElements = workingDocument.selectNodes(getXPath());
-        if (!targetElements.isEmpty()) {
-            for (Element targetElement : targetElements)
-                for (Attribute attribute : (List<Attribute>) getTransformElementCopy().attributes()) {
-                    if (mustBeSet(attribute.getQName().getName()))
-                        targetElement.addAttribute(attribute.getQName(), attribute.getValue());
-                }
+    protected void processElement(Element targetElement) {
+        for (Attribute attribute : (List<Attribute>) getTransformElementCopy().attributes()) {
+            if (mustBeSet(attribute.getQName().getName()))
+                targetElement.addAttribute(attribute.getQName(), attribute.getValue());
         }
+    }
 
+    @Override
+    protected String getSelectionQuery() {
+        return getXPath();
     }
 
 

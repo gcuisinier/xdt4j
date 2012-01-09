@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class LocatorFactory {
-    public static Logger LOG = LoggerFactory.getLogger(LocatorFactory.class);
+    private static Logger LOG = LoggerFactory.getLogger(LocatorFactory.class);
 
     private static final Pattern LOCATOR_VALIDATOR_PATTERN = Pattern.compile("(\\w*)(\\((.*)\\))?");
 
@@ -41,8 +41,8 @@ public abstract class LocatorFactory {
 
 
     }
-    
-    private static Locator instantiateImplementation(String locatorType, String locatorParameter){
+
+    private static Locator instantiateImplementation(String locatorType, String locatorParameter) {
         if ("Condition".equals(locatorType)) {
             return new ConditionLocator(locatorParameter);
         } else if ("Match".equals(locatorType))

@@ -218,6 +218,24 @@ public class XdtTransformerTest {
 
     }
 
+
+    @Test
+    public void TestInsertTransformNoExistingParent() throws Exception {
+        @Language("XML")
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <mySetting>\n        <add key=\"key4\" value=\"value4\" xdt:Transform=\"Insert\"/>\n    </mySetting>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        // Must not create missing parent, may create a new Transformer to InsertAll for that
+        XMLAssert.assertXpathEvaluatesTo("0", "count(/configuration/mySetting/add)", result.asXML());
+
+
+    }
+
+
     @Test
     public void TestInsertTransformSpecificChildren() throws Exception {
         @Language("XML")

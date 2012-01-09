@@ -1,5 +1,7 @@
 package be.hikage.xdt4j.transform;
 
+import be.hikage.xdt4j.locator.LocatorUtils;
+import be.hikage.xdt4j.util.XmlUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.slf4j.Logger;
@@ -8,31 +10,24 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 
-public class InsertBeforeTransform extends Transform {
+public class InsertBeforeTransform extends AbstractFirstChildBasedTransform {
 
-    public static Logger LOG = LoggerFactory.getLogger(InsertBeforeTransform.class);
+    private static Logger LOG = LoggerFactory.getLogger(InsertBeforeTransform.class);
+
 
     @Override
-    public void applyInternal() {
+    protected void processElement(Element targetElement) {
+        String localPath = getRelativeXPath();
 
-        List<Element> targetElements = workingDocument.selectNodes(transformElement.getParent().getPath());
+        Element markedElement = (Element) targetElement.selectSingleNode(localPath);
+        int indexOfMarkerElement = XmlUtils.findIndexOfElementInChildren(targetElement, markedElement);
 
-        if (!targetElements.isEmpty()) {
-            Element targetElement = targetElements.get(0);
+        targetElement.elements().add(indexOfMarkerElement, getTransformElementCopy());
+    }
 
-            String localPath = getRelativeXPath();
-
-            Element markedElement = (Element) targetElement.selectSingleNode(localPath);
-            int indexOfMarkerElement = 0;
-            for (Element ptrElement : (List<Element>) targetElement.elements()) {
-                if (ptrElement == markedElement) break;
-                indexOfMarkerElement++;
-            }
-
-            targetElement.elements().add(indexOfMarkerElement, getTransformElementCopy());
-
-
-        }
+    @Override
+    protected String getSelectionQuery() {
+        return LocatorUtils.generateSpecificXPath(transformElement.getParent());
     }
 
 

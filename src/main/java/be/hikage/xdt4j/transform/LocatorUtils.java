@@ -1,6 +1,9 @@
 package be.hikage.xdt4j.transform;
 
 import be.hikage.xdt4j.locator.Locator;
+import be.hikage.xdt4j.locator.LocatorFactory;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import org.dom4j.Element;
 
 import java.util.ArrayList;

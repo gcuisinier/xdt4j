@@ -352,6 +352,25 @@ public class XdtTransformerTest {
         assertNotNull("No Element found 2", foundElement);
         assertEquals("Namespace are different", "", foundElement.getNamespaceURI());
     }
+
+    @Test
+    public void TestInsertChildrenTransform() throws Exception {
+        @Language("XML")
+        String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <appSettings xdt:Transform=\"InsertChildren\">\n        <add key=\"key4\" value=\"value4\"/>\n        <add key=\"key5\" value=\"value5\"/>\n    </appSettings>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+
+        XMLAssert.assertXpathEvaluatesTo("5", "count(/configuration/appSettings/add)", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("value4", "/configuration/appSettings/add[@key=\"key4\"]/@value", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("value5", "/configuration/appSettings/add[@key=\"key5\"]/@value", result.asXML());
+
+
+    }
+
+
 }
 
 

@@ -48,6 +48,7 @@ public abstract class Transform {
         Element tempElement = transformElement.createCopy();
         List<Attribute> newAttributes = new ArrayList<Attribute>();
 
+        // Clean XDT Schema Reference
         for (Attribute attribute : (List<Attribute>) tempElement.attributes()) {
             if (XdtConstants.XDT_NAMESPACE.equals(attribute.getNamespaceURI()))
                 continue;

@@ -26,7 +26,7 @@ public class ReplaceTransform extends AbstractFirstChildBasedTransform {
 
     @Override
     protected String getSelectionQuery() {
-        return transformElement.getPath();
+        return getXPath();
     }
 
     private void replaceElement(Element toReplace, Element transformElement) {

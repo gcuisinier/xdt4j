@@ -47,10 +47,12 @@
     </scm>
 
     <distributionManagement>
+        <!--
         <site>
             <id>opensource.hikage.be</id>
             <url>scp://opensource.hikage.be/www/maven.apache.org/plugins/</url>
         </site>
+        -->
     </distributionManagement>
 
 

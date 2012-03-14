@@ -389,6 +389,31 @@ public class XdtTransformerTest {
     }
 
 
+    @Test
+    public void TestConditionLocatorRemove() throws Exception {
+        @Language("XML")
+        final String transformInstruction = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <fileSets>\n        <fileSet xdt:Transform=\"Remove\" xdt:Locator=\"Condition(@id='fileset2')\">\n        </fileSet>\n    </fileSets>\n</configuration>";
+        @Language("XML")
+        final String transformInstruction2 = "<configuration xmlns:xdt=\"http://schemas.microsoft.com/XML-Document-Transform\">\n    <fileSets>\n        <fileSet xdt:Transform=\"Remove\" xdt:Locator=\"Condition(file/text()='myfile3')\">\n        </fileSet>\n    </fileSets>\n</configuration>";
+        Document transformDocument = TestUtils.loadXmlFromString(transformInstruction);
+        Document transformDocument2 = TestUtils.loadXmlFromString(transformInstruction);
+
+
+        XdtTransformer transformer = new XdtTransformer();
+        Document result = transformer.transform(baseDocument, transformDocument);
+        Document result2 = transformer.transform(baseDocument, transformDocument2);
+
+
+        XMLAssert.assertXpathEvaluatesTo("1", "count(/configuration/fileSets/fileSet)", result.asXML());
+        XMLAssert.assertXpathEvaluatesTo("fileset1", "/configuration/fileSets/fileSet/@id", result.asXML());
+
+        XMLAssert.assertXpathEvaluatesTo("1", "count(/configuration/fileSets/fileSet)", result2.asXML());
+        XMLAssert.assertXpathEvaluatesTo("fileset1", "/configuration/fileSets/fileSet/@id", result2.asXML());
+
+
+    }
+
+
 }
 
 
